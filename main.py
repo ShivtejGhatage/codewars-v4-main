@@ -5,7 +5,8 @@ import sample1
 import sample2
 import sample3
 import theSCRIPT
+import theSCRIPTcopy
 
 if __name__ == "__main__":
-    G = Game((40, 40), theSCRIPT, scriptblue)
+    G = Game((40, 40), theSCRIPTcopy, theSCRIPT)
     G.run_game()
