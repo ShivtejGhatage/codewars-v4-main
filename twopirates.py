@@ -153,18 +153,15 @@ def ActPirate(pirate):
 
     
     if pirate.getTeamSignal() != "":
-        id = pirate.getID()
         s = pirate.getTeamSignal()
         l = s.split(",")
-        totalP = pirate.get
         x = int(l[0][1:])
         y = int(l[1])
-        if id in idlist[:]:
-            goornot = random.randint(0,1)
-            if goornot == 1:
-                return moveTo(x, y, pirate)
-            else: 
-                return howtomove(pirate)
+        goornot = random.randint(0,1)
+        if goornot == 1:
+            return moveTo(x, y, pirate)
+        else: 
+            return howtomove(pirate)
     else:
         return howtomove(pirate)
 

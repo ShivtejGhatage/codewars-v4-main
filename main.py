@@ -4,7 +4,8 @@ import scriptred
 import theSCRIPT
 import og
 import theSCRIPTcopy
+import twopirates
 
 if __name__ == "__main__":
-    G = Game((40, 40), scriptblue, theSCRIPT)
+    G = Game((40, 40), twopirates, og)
     G.run_game()
