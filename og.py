@@ -1,7 +1,6 @@
 import random
 
 name = "ByteMeBaby"
-idlist = []
 
 def moveTo(x , y , Pirate):
     position = Pirate.getPosition()
@@ -66,25 +65,7 @@ def howtomove(pirate):
         return random.randint(1,4)
     if z > 6:
         return notCenterorCorner(pirate)
-    
-def gather1(pirate):
-    x, y = pirate.getPosition()
-    if (x != 40 and y%2 == 0):
-        moveTo(40, y, pirate)
-    if (x != 0 and y%2 == 1):
-        moveTo(0, y, pirate)
-    if (x == 40 or x == 0):
-        moveTo(x, y+1, pirate)
-    
-def gather2(pirate):
-    x, y = pirate.getPosition()
-    if (x != 40 and y%2 == 1):
-        moveTo(40, y, pirate)
-    if (x != 0 and y%2 == 0):
-        moveTo(0, y, pirate)
-    if (x == 40 or x == 0):
-        moveTo(x, y+1, pirate)
-    
+
 
 
 
@@ -96,14 +77,7 @@ def ActPirate(pirate):
     x, y = pirate.getPosition()
     pirate.setSignal("")
     s = pirate.trackPlayers()
-    id = int((pirate.getID()))
-    idlist.append(id)
-    if (id == 1):
-        return gather1(pirate)
-
-    if (id == 2):
-        return gather2(pirate)
-
+    
     if (
         (up == "island1" and s[0] != "myCaptured")
         or (up == "island2" and s[1] != "myCaptured")
@@ -154,7 +128,7 @@ def ActTeam(team):
     l = team.trackPlayers()
     s = team.getTeamSignal()
 
-    idlist.clear()
+
     team.buildWalls(1)
     team.buildWalls(2)
     team.buildWalls(3)
