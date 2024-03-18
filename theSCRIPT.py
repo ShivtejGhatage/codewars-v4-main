@@ -69,23 +69,38 @@ def howtomove(pirate):
     
 def gather1(pirate):
     x, y = pirate.getPosition()
-    if (x != 40 and y%2 == 0):
-        moveTo(40, y, pirate)
-    if (x != 0 and y%2 == 1):
-        moveTo(0, y, pirate)
-    if (x == 40 or x == 0):
-        moveTo(x, y+1, pirate)
+    if (y<20):
+        if (x != 39 and y%2 == 0):
+            return moveTo(39, y, pirate)
+        if (x != 0 and y%2 == 1):
+            return moveTo(0, y, pirate)
+        if (x == 39 or x == 0):
+            return moveTo(x, y+1, pirate)
+    else:
+        if (x != 39 and y%2 == 0):
+            return moveTo(39, y, pirate)
+        if (x != 0 and y%2 == 1):
+            return moveTo(0, y, pirate)
+        if (x == 39 or x == 0):
+            return moveTo(x, y-1, pirate)
     
 def gather2(pirate):
     x, y = pirate.getPosition()
-    if (x != 40 and y%2 == 1):
-        moveTo(40, y, pirate)
-    if (x != 0 and y%2 == 0):
-        moveTo(0, y, pirate)
-    if (x == 40 or x == 0):
-        moveTo(x, y+1, pirate)
+    if (x<20):
+        if (y != 39 and x%2 == 0):
+            return moveTo(x, 39, pirate)
+        if (y != 0 and x%2 == 1):
+            return moveTo(x, 0, pirate)
+        if (y == 39 or y == 0):
+            return moveTo(x+1, y, pirate)
+    else:
+        if (y != 39 and x%2 == 0):
+            return moveTo(x, 39, pirate)
+        if (y != 0 and x%2 == 1):
+            return moveTo(x, 0, pirate)
+        if (y == 39 or y == 0):
+            return moveTo(x-1, y, pirate)
     
-
 
 
 def ActPirate(pirate):

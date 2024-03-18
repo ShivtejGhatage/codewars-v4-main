@@ -6,5 +6,5 @@ import og
 import theSCRIPTcopy
 
 if __name__ == "__main__":
-    G = Game((40, 40), og, theSCRIPT)
+    G = Game((40, 40), scriptblue, theSCRIPT)
     G.run_game()
