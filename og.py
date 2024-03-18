@@ -77,6 +77,8 @@ def ActPirate(pirate):
     x, y = pirate.getPosition()
     pirate.setSignal("")
     s = pirate.trackPlayers()
+
+    
     
     if (
         (up == "island1" and s[0] != "myCaptured")
