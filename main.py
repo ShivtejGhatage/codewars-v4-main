@@ -8,7 +8,7 @@ import sample2
 import sample3
 import twopirates
 import final
-
+import gk
 if __name__ == "__main__":
-    G = Game((40, 40), final, twopirates)
+    G = Game((40, 40), gk, twopirates)
     G.run_game()

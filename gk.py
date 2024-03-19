@@ -2,9 +2,6 @@ import random
 
 name = 'gk'
 
-IdSet = list()
-collectingPirateIdY = {}
-collectingPirateIdX = {}
 
 
 def moveTo(x, y, Pirate):
@@ -147,30 +144,97 @@ def moveToRow(pirate, lambda_):
     else:
         # If the pirate is already on the target row, do nothing
         return 0  
+# def ActPirate(pirate):
+#     id = int(pirate.getID())
+#     try:
+#         IdSet.append(id)
+#     except NameError:
+#         IdSet = [id]
+#     x, y = pirate.getPosition() 
+#     xD, yD = pirate.getDeployPoint()
+#     # a, b, c, d, e, f = , IdSet[1], IdSet[2], IdSet[3], IdSet[4], IdSet[5]
+#     #the first pirate go to the first colun, second to second column and so on..
+#     if id == IdSet[0]:
+#         if (x % 6 != 0):
+#             return moveTo(39- xD, y, pirate)
+#         else:
+#             collectResourceX(pirate, 0)
+#     elif id == IdSet[1]:
+#         if (x % 6 != 1):
+#             return moveTo(39 - xD, y, pirate)
+#         else:
+#             collectResourceX(pirate, 1)
+#     elif id == IdSet[2]:
+#         if (x % 6 != 2):
+#             return moveTo(39 - xD, y, pirate)
+#         else:
+#             collectResourceX(pirate, 2)
+#     elif id == IdSet[3]:
+#         if (x % 6 != 3):
+#             return moveTo(39 - xD, y, pirate)
+#         else:
+#             collectResourceX(pirate, 3)
+#     elif id == IdSet[4]:
+#         if (x % 6 != 4):
+#             return moveTo(39 - xD, y, pirate)
+#         else:
+#             collectResourceX(pirate, 4)
+#     elif id == IdSet[5]:
+#         if (x % 6 != 5):
+#             return moveTo(39 - xD, y, pirate)
+#         else:
+#             collectResourceX(pirate, 5)
+#     # elif id == IdSet[6]:
+#     #     if (y % 6 != 0):
+#     #         return moveTo(39 - xD, y, pirate)
+#     #     else:
+#     #         collectResourceX(pirate, 0)
+
+# def allPiratesInPosition(IdSet):
+#     for id in IdSet[:6]:
+#         pirate = getPirateById(id)
+#         x, y = pirate.getPosition()
+#         if x % 6 != id:
+#             return False
+#     return True
+
+# def ActPirate(pirate):
+#     xD, yD = pirate.getDeployPoint()
+#     id = int(pirate.getID())
+#     try:
+#         IdSet.append(id)
+#     except NameError:
+#         IdSet = [id]
+#     x, y = pirate.getPosition() 
+
+#     if id in IdSet[:6]:
+#         if x % 6 != id:
+#             return moveTo(39 - xD, y, pirate)
+#         elif allPiratesInPosition(IdSet):
+#             return collectResourceX(pirate, id)
+# Global variable to track if all pirates are in position
+allPiratesInPosition = False
+
 def ActPirate(pirate):
-    # complete this function
+    global allPiratesInPosition
+    xD, yD = pirate.getDeployPoint()
     id = int(pirate.getID())
-    IdSet.append(id)
-    x,y = pirate.getPosition() 
-    if (pirate.getCurrentFrame() == 1):
-        return moveTo(x, 39 - y, pirate) if id in IdSet[:4] else moveTo(39 - x, y, pirate)
-    if (pirate.getCurrentFrame() == 2):
-        if (id == IdSet[0]):    return moveToRow(pirate,1)
-        if (id == IdSet[1]):    return moveToRow(pirate,2)
-        if (id == IdSet[2]):    return moveToRow(pirate,0)
+    try:
+        IdSet.append(id)
+    except NameError:
+        IdSet = [id]
+    x, y = pirate.getPosition() 
 
-        if (id == IdSet[3]):    return moveToRow(pirate,1)
-        if (id == IdSet[4]):    return moveToRow(pirate,2)
-        if (id == IdSet[5]):    return moveToRow(pirate,0)
-
-    if (pirate.getCurrentFrame() >= 3):
-        if (id == IdSet[0]):    return collectResourceX(pirate, 1)
-        if (id == IdSet[1]):    return collectResourceX(pirate, 2)
-        if (id == IdSet[2]):    return collectResourceX(pirate, 0)
-
-        if (id == IdSet[3]):    return collectResourceY(pirate, 1)
-        if (id == IdSet[4]):    return collectResourceY(pirate, 2)
-        if (id == IdSet[5]):    return collectResourceY(pirate, 0)
-
-    # print(collectingPirateIdX)
-        
+    if id in IdSet[:6]:
+        if x % 6 != id:
+            # Move to the target row
+            return moveTo(x, 39-yD, pirate)
+        else:
+            # If all pirates are in position, start collecting resources
+            if allPiratesInPosition:
+                return collectResourceX(pirate, id)
+            # If not all pirates are in position, check if this pirate is the last one to reach its row
+            elif id == max(IdSet[:6]):
+                allPiratesInPosition = True
+def ActTeam(team):
+    pass
