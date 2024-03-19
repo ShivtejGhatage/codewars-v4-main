@@ -2,7 +2,7 @@ import random
 
 name = 'gk'
 
-IdSet = list()
+# IdSet = list()
 collectingPirateIdY = {}
 collectingPirateIdX = {}
 
@@ -147,7 +147,7 @@ def moveToRow(pirate, lambda_):
     else:
         # If the pirate is already on the target row, do nothing
         return 0  
-def ActPirate(pirate):
+def ActPirate(pirate,IdSet):
     # complete this function
     id = int(pirate.getID())
     IdSet.append(id)
@@ -173,4 +173,7 @@ def ActPirate(pirate):
         if (id == IdSet[5]):    return collectResourceY(pirate, 0)
 
     # print(collectingPirateIdX)
-        
+def ActTeam(team):
+    IdSet = []
+    for pirate in team:
+        ActPirate(pirate,IdSet)
