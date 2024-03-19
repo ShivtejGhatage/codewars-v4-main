@@ -2,10 +2,6 @@ import random
 
 name = 'gk'
 
-# IdSet = list()
-collectingPirateIdY = {}
-collectingPirateIdX = {}
-
 
 def moveTo(x, y, Pirate):
     position = Pirate.getPosition()
