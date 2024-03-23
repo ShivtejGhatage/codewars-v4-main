@@ -1,4 +1,5 @@
 from engine.main import Game
+from engine.main import ABCD
 import scriptblue
 import scriptred
 import theSCRIPT
@@ -14,6 +15,7 @@ import vs
 import ConfidentialDONOTSHARE
 
 
+
 if __name__ == "__main__":
-    G = Game((40, 40), f, working)
+    G = Game((ABCD, ABCD), f, working)
     G.run_game()

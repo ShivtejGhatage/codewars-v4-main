@@ -15,6 +15,7 @@ import tkinter
 from tkinter import messagebox
 import traceback
 
+ABCD = 100
 status_to_sea = [SEA_DARKBLUE, SEA_BLUE, SEA_RED]
 status_to_color = [BLUE, LIGHT_GRAY, RED]
 status_to_team = ["Blue", "Neutral", "Red"]
@@ -102,11 +103,11 @@ class Game:
         excluded = random.randint(0, 3)
 
         if excluded == 0 or excluded == 3:
-            base_red = (39, 0)
-            base_blue = (0, 39)
+            base_red = (ABCD-1, 0)
+            base_blue = (0, ABCD-1)
         else:
             base_red = (0, 0)
-            base_blue = (39, 39)
+            base_blue = (ABCD-1, ABCD-1)
 
         l = []
         for i in range(4):

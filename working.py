@@ -361,14 +361,14 @@ def diag (pirate):
     time = pirate.getCurrentFrame()
     xd=int(pirate.getDeployPoint()[0])
     yd=int(pirate.getDeployPoint()[1])
-    
+
     xz = int(pirate.getDimensionX())
     yz = int(pirate.getDimensionY())
     x=int(pirate.getPosition()[0])
     y=int(pirate.getPosition()[1])
     print(x,y)
     print((xz-xd-1), yz-yd-1)
-    if (time %300 < 150):
+    if (time % int(7.5*xz) < int(3.75*xz)):
         return moveTo((xz-xd-1), yz-yd-1, pirate)
     else:
         return moveTo(xd, yd, pirate)
@@ -377,11 +377,17 @@ def diag (pirate):
 
 def howtomove(pirate):
     x, y = pirate.getPosition()
+    xz = int(pirate.getDimensionX())
+    yz = int(pirate.getDimensionY())
     z = random.randint(1,10)
+    time = pirate.getCurrentFrame()
     if z==1 :
-        return random.randint(1,4)
+        return spread(pirate)
     if z > 1:
-        return diag(pirate)
+        if time < int(3*xz):
+            return diag(pirate)
+        else:
+            return spread(pirate)
 
 
 def how2move(pirate):
@@ -404,7 +410,8 @@ def ActPirate(pirate):
     time = pirate.getCurrentFrame()
     id = int(pirate.getID())
     squad=id%25
-
+    xz = int(pirate.getDimensionX())
+    yz = int(pirate.getDimensionY())
 
     x,y = pirate.getPosition() 
 
@@ -417,7 +424,7 @@ def ActPirate(pirate):
         if (squad == 5):    return moveToCol(pirate,2)
         if (squad == 6):    return moveToCol(pirate,0)
 
-    if (pirate.getCurrentFrame() >= 3 and pirate.getCurrentFrame()<500):
+    if (pirate.getCurrentFrame() >= 3 and pirate.getCurrentFrame()<1000):
         if (squad == 1):    return collectResourceX(pirate, 0)
         if (squad == 2):    return collectResourceX(pirate, 1)
         if (squad == 3):    return collectResourceX(pirate, 2)
@@ -425,14 +432,14 @@ def ActPirate(pirate):
         if (squad == 4):    return collectResourceY(pirate, 1)
         if (squad == 5):    return collectResourceY(pirate, 2)
         if (squad == 6):    return collectResourceY(pirate, 0)
-    elif (pirate.getCurrentFrame() >= 3 and pirate.getCurrentFrame()>=500):
-        if (squad == 1):    return random.randint(1,4)
-        if (squad == 2):    return random.randint(1,4)
-        if (squad == 3):    return random.randint(1,4)
+    # elif (pirate.getCurrentFrame() >= 3 and pirate.getCurrentFrame()>=1000):
+    #     if (squad == 1):    return random.randint(1,4)
+    #     if (squad == 2):    return random.randint(1,4)
+    #     if (squad == 3):    return random.randint(1,4)
 
-        if (squad == 4):    return random.randint(1,4)
-        if (squad == 5):    return random.randint(1,4)
-        if (squad == 6):    return random.randint(1,4)
+    #     if (squad == 4):    return random.randint(1,4)
+    #     if (squad == 5):    return random.randint(1,4)
+    #     if (squad == 6):    return random.randint(1,4)
     
     if (
         (up == "island1" and s[0] != "myCaptured")
@@ -468,7 +475,7 @@ def ActPirate(pirate):
 
 
 
-    if pirate.getTeamSignal() != "" and time>300:
+    if pirate.getTeamSignal() != "" and time > int(7.5*xz)  :
         s = pirate.getTeamSignal()
         l = s.split(",")
         x = int(l[0][1:])
