@@ -3,6 +3,9 @@ import random
 name = "ByteMeBaby"
 
 
+
+
+
 def moveTo(x , y , Pirate):
     position = Pirate.getPosition()
     if position[0] == x and position[1] == y:
@@ -26,6 +29,76 @@ def moveStraight(direction, pirate):
     if direction == "w":
         return 4
 
+def checkfriends(pirate , quad ):
+    sum = 0 
+    up = pirate.investigate_up()[1]
+    print(up)
+    down = pirate.investigate_down()[1]
+    left = pirate.investigate_left()[1]
+    right = pirate.investigate_right()[1]
+    ne = pirate.investigate_ne()[1]
+    nw = pirate.investigate_nw()[1]
+    se = pirate.investigate_se()[1]
+    sw = pirate.investigate_sw()[1]
+    
+    if(quad=='ne'):
+        if(up == 'friend'):
+            sum +=1 
+        if(ne== 'friend'):
+            sum +=1 
+        if(right == 'friend'):
+            sum +=1 
+    if(quad=='se'):
+        if(down == 'friend'):
+            sum +=1 
+        if(right== 'friend'):
+            sum +=1 
+        if(se == 'friend'):
+            sum +=1 
+    if(quad=='sw'):
+        if(down == 'friend'):
+            sum +=1 
+        if(sw== 'friend'): 
+            sum +=1 
+        if(left == 'friend'):
+            sum +=1 
+    if(quad=='nw'):
+        if(up == 'friend'):
+            sum +=1 
+        if(nw == 'friend'):
+            sum +=1 
+        if(left == 'friend'):
+            sum +=1 
+
+    return sum
+    
+def spread(pirate):
+    sw = checkfriends(pirate ,'sw' )
+    se = checkfriends(pirate ,'se' )
+    ne = checkfriends(pirate ,'ne' )
+    nw = checkfriends(pirate ,'nw' )
+   
+    my_dict = {'sw': sw, 'se': se, 'ne': ne, 'nw': nw}
+    sorted_dict = dict(sorted(my_dict.items(), key=lambda item: item[1]))
+
+    x, y = pirate.getPosition()
+    
+    if( x == 0 , y == 0):
+        return random.randint(1,4)
+    
+    if(sorted_dict[list(sorted_dict())[3]] == 0 ):
+        return random.randint(1,4)
+    
+    if(list(sorted_dict())[0] == 'sw'):
+        return moveTo(x-1 , y+1 , pirate)
+    elif(list(sorted_dict())[0] == 'se'):
+        return moveTo(x+1 , y+1 , pirate)
+    elif(list(sorted_dict())[0] == 'ne'):
+        return moveTo(x+1 , y-1 , pirate)
+    elif(list(sorted_dict())[0] == 'nw'):
+        return moveTo(x-1 , y-1 , pirate)
+
+
 def collectResourceX(pirate, lambda_):
     x, y = pirate.getPosition()
     xD, yD = pirate.getDeployPoint()
@@ -38,7 +111,7 @@ def collectResourceX(pirate, lambda_):
     x, y = pirate.getPosition()
     pirate.setSignal("")
     s = pirate.trackPlayers()
-    thirty9 = pirate.getDimensionX()
+    thirty9 = pirate.getDimensionX()-1
 
     if (
         (up == "island1" and s[0] != "myCaptured")
@@ -121,8 +194,8 @@ def collectResourceY(pirate, lambda_):
     x, y = pirate.getPosition()
     pirate.setSignal("")
     s = pirate.trackPlayers()
+    thirty9 = pirate.getDimensionX()-1
 
-    thirty9 = pirate.getDimensionX()
 
     if (
         (up == "island1" and s[0] != "myCaptured")
@@ -194,8 +267,8 @@ def collectResourceY(pirate, lambda_):
 
 def moveToRow(pirate, lambda_):
     x, y = pirate.getPosition()
+    thirty9 = pirate.getDimensionX()-1
 
-    thirty9 = pirate.getDimensionX()
     # Calculate the nearest row
     r_up = y - y % 3 + lambda_
     if r_up < y:
@@ -219,7 +292,7 @@ def moveToRow(pirate, lambda_):
 
 def moveToCol(pirate, lambda_):
     x, y = pirate.getPosition()
-    thirty9 = pirate.getDimensionX()
+    thirty9 = pirate.getDimensionX()-1
 
     # Calculate the nearest column
     c_right = x - x % 3 + lambda_
@@ -284,16 +357,40 @@ def notCenterorCorner(pirate):
         return random.randint(1,4)
 
 
+def diag (pirate):
+    time = pirate.getCurrentFrame()
+    xd=int(pirate.getDeployPoint()[0])
+    yd=int(pirate.getDeployPoint()[1])
+    
+    xz = int(pirate.getDimensionX())
+    yz = int(pirate.getDimensionY())
+    x=int(pirate.getPosition()[0])
+    y=int(pirate.getPosition()[1])
+    print(x,y)
+    print((xz-xd-1), yz-yd-1)
+    if (time %300 < 150):
+        return moveTo((xz-xd-1), yz-yd-1, pirate)
+    else:
+        return moveTo(xd, yd, pirate)
+    
+
 
 def howtomove(pirate):
+    x, y = pirate.getPosition()
+    z = random.randint(1,10)
+    if z==1 :
+        return random.randint(1,4)
+    if z > 1:
+        return diag(pirate)
+
+
+def how2move(pirate):
     x, y = pirate.getPosition()
     z = random.randint(1,9)
     if z < 7 :
         return random.randint(1,4)
     if z > 6:
         return notCenterorCorner(pirate)
-
-
 
 
 def ActPirate(pirate):
@@ -305,34 +402,37 @@ def ActPirate(pirate):
     pirate.setSignal("")
     s = pirate.trackPlayers()
     time = pirate.getCurrentFrame()
-    thirty9 = pirate.getDimensionX()-1
-
     id = int(pirate.getID())
-    try:
-        IdSet.append(id)
-    except NameError:
-        IdSet = [id]
+    squad=id%25
+
 
     x,y = pirate.getPosition() 
-    if (pirate.getCurrentFrame() == 1):
-        return moveTo(x, thirty9 - y, pirate) if id in IdSet[:4] else moveTo(thirty9 - x, y, pirate)
+
     if (pirate.getCurrentFrame() == 2):
-        if (id == IdSet[0]):    return moveToRow(pirate,0)
-        if (id == IdSet[1]):    return moveToRow(pirate,1)
-        if (id == IdSet[2]):    return moveToRow(pirate,2)
+        if (squad == 1):    return moveToRow(pirate,0)
+        if (squad == 2):    return moveToRow(pirate,1)
+        if (squad == 3):    return moveToRow(pirate,2)
 
-        if (id == IdSet[3]):    return moveToCol(pirate,1)
-        if (id == IdSet[4]):    return moveToCol(pirate,2)
-        if (id == IdSet[5]):    return moveToCol(pirate,0)
+        if (squad == 4):    return moveToCol(pirate,1)
+        if (squad == 5):    return moveToCol(pirate,2)
+        if (squad == 6):    return moveToCol(pirate,0)
 
-    if (pirate.getCurrentFrame() >= 3):
-        if (id == IdSet[0]):    return collectResourceX(pirate, 0)
-        if (id == IdSet[1]):    return collectResourceX(pirate, 1)
-        if (id == IdSet[2]):    return collectResourceX(pirate, 2)
+    if (pirate.getCurrentFrame() >= 3 and pirate.getCurrentFrame()<500):
+        if (squad == 1):    return collectResourceX(pirate, 0)
+        if (squad == 2):    return collectResourceX(pirate, 1)
+        if (squad == 3):    return collectResourceX(pirate, 2)
 
-        if (id == IdSet[3]):    return collectResourceY(pirate, 1)
-        if (id == IdSet[4]):    return collectResourceY(pirate, 2)
-        if (id == IdSet[5]):    return collectResourceY(pirate, 0)
+        if (squad == 4):    return collectResourceY(pirate, 1)
+        if (squad == 5):    return collectResourceY(pirate, 2)
+        if (squad == 6):    return collectResourceY(pirate, 0)
+    elif (pirate.getCurrentFrame() >= 3 and pirate.getCurrentFrame()>=500):
+        if (squad == 1):    return random.randint(1,4)
+        if (squad == 2):    return random.randint(1,4)
+        if (squad == 3):    return random.randint(1,4)
+
+        if (squad == 4):    return random.randint(1,4)
+        if (squad == 5):    return random.randint(1,4)
+        if (squad == 6):    return random.randint(1,4)
     
     if (
         (up == "island1" and s[0] != "myCaptured")
@@ -366,8 +466,9 @@ def ActPirate(pirate):
         s = right[-1] + str(x + 1) + "," + str(y)
         pirate.setTeamSignal(s)
 
-    
-    if pirate.getTeamSignal() != "" and time > 250:
+
+
+    if pirate.getTeamSignal() != "" and time>300:
         s = pirate.getTeamSignal()
         l = s.split(",")
         x = int(l[0][1:])
@@ -383,7 +484,7 @@ def ActPirate(pirate):
 def ActTeam(team):
     l = team.trackPlayers()
     s = team.getTeamSignal()
-    IdSet =[]
+
 
     team.buildWalls(1)
     team.buildWalls(2)
