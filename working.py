@@ -475,7 +475,7 @@ def ActPirate(pirate):
 
 
 
-    if pirate.getTeamSignal() != "" and time > int(7.5*xz)  :
+    if pirate.getTeamSignal() != "" and time > int(6*xz)  :
         s = pirate.getTeamSignal()
         l = s.split(",")
         x = int(l[0][1:])
